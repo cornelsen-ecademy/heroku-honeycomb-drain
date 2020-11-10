@@ -48,27 +48,27 @@ func JsonToEvent(message []byte, event *libhoney.Event) bool {
 }
 
 func coerceLogFmtValue(value string) interface{} {
-	var durationValue, durationErr := time.ParseDuration(value)
+	durationValue, durationErr := time.ParseDuration(value)
 	if durationErr == nil {
 		return durationValue.Milliseconds()
 	}
 
-	var intValue, intErr = strconv.ParseInt(value, 10, 64)
+	intValue, intErr = strconv.ParseInt(value, 10, 64)
 	if intErr == nil {
 		return intValue
 	}
 
-	var floatValue, floatErr = strconv.ParseFloat(value, 64)
+	floatValue, floatErr = strconv.ParseFloat(value, 64)
 	if floatErr == nil {
 		return floatValue
 	}
 
-	var uintValue, uintErr = strconv.ParseUint(value, 10, 64)
+	uintValue, uintErr = strconv.ParseUint(value, 10, 64)
 	if uintErr == nil {
 		return uintValue
 	}
 
-	var boolValue, boolErr = strconv.ParseBool(value)
+	boolValue, boolErr = strconv.ParseBool(value)
 	if boolErr == nil {
 		return boolValue
 	}
