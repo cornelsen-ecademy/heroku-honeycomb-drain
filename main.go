@@ -52,7 +52,7 @@ func coerceLogFmtValue(value string) interface{} {
 
 	outValue, err := time.ParseDuration(value)
 	if err == nil {
-		return outValue.Milliseconds()
+		return outValue
 	}
 
 	outValue, err = strconv.ParseInt(value, 10, 64)
