@@ -5,15 +5,16 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/bmizerany/lpx"
-	"github.com/go-logfmt/logfmt"
-	"github.com/honeycombio/libhoney-go"
 	"log"
 	"net/http"
 	"os"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/bmizerany/lpx"
+	"github.com/go-logfmt/logfmt"
+	"github.com/honeycombio/libhoney-go"
 )
 
 type LogDrain struct {
