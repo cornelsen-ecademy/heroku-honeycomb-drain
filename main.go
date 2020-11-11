@@ -83,6 +83,8 @@ func LogFmtToEvent(message []byte, event *libhoney.Event) bool {
 		for d.ScanKeyval() {
 			if string(d.Key()) == "request_id" {
 				event.AddField("trace.trace_id", string(d.Value()))
+			} else if string(d.Key()) == "service" {
+				event.AddField("duration_ms", coerceLogFmtValue(string(d.Value())))
 			} else {
 				event.AddField(string(d.Key()), coerceLogFmtValue(string(d.Value())))
 			}
