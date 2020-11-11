@@ -54,22 +54,22 @@ func coerceLogFmtValue(value string) interface{} {
 		return durationValue.Milliseconds()
 	}
 
-	intValue, intErr = strconv.ParseInt(value, 10, 64)
+	intValue, intErr := strconv.ParseInt(value, 10, 64)
 	if intErr == nil {
 		return intValue
 	}
 
-	floatValue, floatErr = strconv.ParseFloat(value, 64)
+	floatValue, floatErr := strconv.ParseFloat(value, 64)
 	if floatErr == nil {
 		return floatValue
 	}
 
-	uintValue, uintErr = strconv.ParseUint(value, 10, 64)
+	uintValue, uintErr := strconv.ParseUint(value, 10, 64)
 	if uintErr == nil {
 		return uintValue
 	}
 
-	boolValue, boolErr = strconv.ParseBool(value)
+	boolValue, boolErr := strconv.ParseBool(value)
 	if boolErr == nil {
 		return boolValue
 	}
