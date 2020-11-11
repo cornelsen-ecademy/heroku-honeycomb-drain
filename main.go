@@ -81,7 +81,11 @@ func LogFmtToEvent(message []byte, event *libhoney.Event) bool {
 	d := logfmt.NewDecoder(bytes.NewBuffer(message))
 	for d.ScanRecord() {
 		for d.ScanKeyval() {
-			event.AddField(string(d.Key()), coerceLogFmtValue(string(d.Value())))
+			if string(d.Key()) == "request_id" {
+				event.AddField("trace.trace_id", string(d.Value()))
+			} else {
+				event.AddField(string(d.Key()), coerceLogFmtValue(string(d.Value())))
+			}
 		}
 
 		if d.Err() != nil {
