@@ -143,7 +143,7 @@ func (ld *LogDrain) Handle(w http.ResponseWriter, req *http.Request) {
 
 		event.AddField("host", string(lp.Header().Hostname))
 		event.AddField("service_name", name)
-		event.AddField("proc_id", proc_id)
+		event.AddField("name", proc_id)
 		event.AddField("msg_id", string(lp.Header().Msgid))
 
 		formatter := ld.FormatterForHostApp(name, proc_id)
