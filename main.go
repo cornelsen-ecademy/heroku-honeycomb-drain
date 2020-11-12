@@ -163,7 +163,8 @@ func (ld *LogDrain) Handle(w http.ResponseWriter, req *http.Request) {
 			ts = time.Now()
 		}
 
-		event.Timestamp = ts
+		service := event.Fields()["duration_ms"].(time.Duration)
+		event.Timestamp = ts.Add(-1 * service)
 
 		if !ld.DebugLogs {
 			event.Send()
