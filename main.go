@@ -161,7 +161,7 @@ func (ld *LogDrain) Handle(w http.ResponseWriter, req *http.Request) {
 		event.AddField("trace.span_id", requestID)
 
 		service := event.Fields()["service"].(time.Duration)
-		event.AddField("duration_ms", service)
+		event.AddField("duration_ms", service.Milliseconds())
 
 		event.Timestamp = ts.Add(-1 * service)
 
