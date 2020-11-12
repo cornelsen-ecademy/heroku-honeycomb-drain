@@ -156,7 +156,7 @@ func (ld *LogDrain) Handle(w http.ResponseWriter, req *http.Request) {
 			ts = time.Now()
 		}
 
-		requestID := event.Fields()["service"]
+		requestID := event.Fields()["request_id"]
 		event.AddField("trace.trace_id", requestID)
 		event.AddField("trace.span_id", requestID)
 
