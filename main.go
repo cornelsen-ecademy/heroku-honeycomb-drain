@@ -51,7 +51,7 @@ func JsonToEvent(message []byte, event *libhoney.Event) bool {
 func coerceLogFmtValue(value string) interface{} {
 	durationValue, durationErr := time.ParseDuration(value)
 	if durationErr == nil {
-		return durationValue.Milliseconds()
+		return durationValue
 	}
 
 	intValue, intErr := strconv.ParseInt(value, 10, 64)
@@ -81,14 +81,7 @@ func LogFmtToEvent(message []byte, event *libhoney.Event) bool {
 	d := logfmt.NewDecoder(bytes.NewBuffer(message))
 	for d.ScanRecord() {
 		for d.ScanKeyval() {
-			if string(d.Key()) == "request_id" {
-				event.AddField("trace.trace_id", string(d.Value()))
-				event.AddField("trace.span_id", string(d.Value()))
-			} else if string(d.Key()) == "service" {
-				event.AddField("duration_ms", coerceLogFmtValue(string(d.Value())))
-			} else {
-				event.AddField(string(d.Key()), coerceLogFmtValue(string(d.Value())))
-			}
+			event.AddField(string(d.Key()), coerceLogFmtValue(string(d.Value())))
 		}
 
 		if d.Err() != nil {
@@ -163,7 +156,13 @@ func (ld *LogDrain) Handle(w http.ResponseWriter, req *http.Request) {
 			ts = time.Now()
 		}
 
-		service := event.Fields()["duration_ms"].(time.Duration)
+		requestID := event.Fields()["service"]
+		event.AddField("trace.trace_id", requestID)
+		event.AddField("trace.span_id", requestID)
+
+		service := event.Fields()["service"].(time.Duration)
+		event.AddField("duration_ms", service.Milliseconds)
+
 		event.Timestamp = ts.Add(-1 * service)
 
 		if !ld.DebugLogs {
