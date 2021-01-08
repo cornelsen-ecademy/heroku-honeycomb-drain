@@ -1,6 +1,7 @@
 module github.com/dreid/heroku-honeycomb-drain
 
 go 1.15
+// +heroku goVersion go1.15
 
 require (
 	github.com/bmizerany/lpx v0.0.0-20130503172629-af85cf24c156
