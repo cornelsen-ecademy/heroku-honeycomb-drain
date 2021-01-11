@@ -162,11 +162,12 @@ func (ld *LogDrain) Handle(w http.ResponseWriter, req *http.Request) {
 
 		service := event.Fields()["service"]
 		if service != nil {
-			serviceTime := service.(time.Duration)
-			event.AddField("duration_ms", serviceTime.Milliseconds())
-			event.Timestamp = ts.Add(-1 * serviceTime)
+			serviceTime, err := service.(time.Duration)
+			if err == nil {
+				event.AddField("duration_ms", serviceTime.Milliseconds())
+				event.Timestamp = ts.Add(-1 * serviceTime)
+			}
 		}
-
 
 		if !ld.DebugLogs {
 			event.Send()
