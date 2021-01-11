@@ -162,8 +162,8 @@ func (ld *LogDrain) Handle(w http.ResponseWriter, req *http.Request) {
 
 		service := event.Fields()["service"]
 		if service != nil {
-			serviceTime, err := service.(time.Duration)
-			if err == nil {
+			serviceTime, ok := service.(time.Duration)
+			if ok == true {
 				event.AddField("duration_ms", serviceTime.Milliseconds())
 				event.Timestamp = ts.Add(-1 * serviceTime)
 			}
