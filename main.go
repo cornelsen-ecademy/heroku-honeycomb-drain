@@ -160,10 +160,13 @@ func (ld *LogDrain) Handle(w http.ResponseWriter, req *http.Request) {
 		event.AddField("trace.trace_id", requestID)
 		event.AddField("trace.span_id", requestID)
 
-		service := event.Fields()["service"].(time.Duration)
-		event.AddField("duration_ms", service.Milliseconds())
+		service := event.Fields()["service"]
+		if service != nil {
+			serviceTime := service.(time.Duration)
+			event.AddField("duration_ms", serviceTime.Milliseconds())
+			event.Timestamp = ts.Add(-1 * serviceTime)
+		}
 
-		event.Timestamp = ts.Add(-1 * service)
 
 		if !ld.DebugLogs {
 			event.Send()
